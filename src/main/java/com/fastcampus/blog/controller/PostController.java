@@ -67,7 +67,6 @@ public class PostController {
         }
 
         savedPost.setPublished(true);
-
         return savedPost;
     }
 }
