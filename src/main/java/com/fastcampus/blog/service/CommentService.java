@@ -44,9 +44,12 @@ public class CommentService {
         if(post == null) {
             return null;
         }
-
         comment.getPost().setId(post.getId());
         comment.setCreatedAt(Instant.now().getEpochSecond());
-        return commentRepository.save(comment);
+        comment = commentRepository.save(comment);
+
+        post.setCommentCount(post.getCommentCount()+1);
+        postRepository.save(post);
+        return comment;
     }
 }

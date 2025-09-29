@@ -24,6 +24,7 @@ public class Post {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post", orphanRemoval = true)
     private List<Comment> comment;
+    private Long commentCount;
 
     public Integer getId() {
         return id;
@@ -51,5 +52,13 @@ public class Post {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Long getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(Long commentCount) {
+        this.commentCount = commentCount;
     }
 }
