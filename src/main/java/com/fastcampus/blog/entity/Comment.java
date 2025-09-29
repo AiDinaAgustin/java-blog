@@ -17,6 +17,7 @@ public class Comment {
     @JoinColumn(name = "post_id")
     @JsonIgnore
     private Post post;
+
     private String body;
     private Long createdAt;
 
@@ -25,6 +26,11 @@ public class Comment {
         this.createdAt = createdAt;
     }
 
+    public Post getPost() {
+        return post;
+    }
 
-
+    public void setPost(Post post) {
+        this.post = post;
+    }
 }

@@ -44,4 +44,12 @@ public class Post {
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

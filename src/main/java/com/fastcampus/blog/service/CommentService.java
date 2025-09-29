@@ -39,6 +39,13 @@ public class CommentService {
     }
 
     public Comment createComment (Comment comment) {
+        Post post = postRepository.findBySlugAndIsDeleted(comment.getPost().getSlug(),false).orElse(null);
+
+        if(post == null) {
+            return null;
+        }
+
+        comment.getPost().setId(post.getId());
         comment.setCreatedAt(Instant.now().getEpochSecond());
         return commentRepository.save(comment);
     }
