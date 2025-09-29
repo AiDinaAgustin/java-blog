@@ -1,10 +1,10 @@
 package com.fastcampus.blog.controller;
 
 import com.fastcampus.blog.entity.Post;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -13,7 +13,7 @@ public class PostController {
     Post post1 = new Post(1, "title1", "Title 1", "title-1");
     Post post2 = new Post(2, "title2", "Title 2", "title-2");
 
-    List<Post> posts = List.of(post1, post2);
+    List<Post> posts = new ArrayList<Post>(Arrays.asList(post1, post2));
     @GetMapping("/")
     public List<Post> getPost() {
         return posts;
@@ -22,5 +22,11 @@ public class PostController {
     @GetMapping("/{slug}")
     public Post getPostBySlug(@PathVariable String slug) {
         return posts.stream().filter(post -> post.getSlug().equals(slug)).findFirst().orElse(null);
+    }
+
+    @PostMapping("/")
+    public Post createPost(@RequestBody Post post) {
+        posts.add(post);
+        return post;
     }
 }
