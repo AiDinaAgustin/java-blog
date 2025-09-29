@@ -57,7 +57,8 @@ public class PostService {
             return false;
         }
 
-        postRepository.deleteById(id);
+        savedPost.setDeleted(true);
+        postRepository.save(savedPost);
         return true;
     }
 

@@ -1,14 +1,13 @@
 package com.fastcampus.blog.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
 public class Post {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
     private String body;
@@ -18,6 +17,7 @@ public class Post {
     private boolean isPublished;
     private boolean isDeleted;
     private Long createdAt;
+    private Long updatedAt;
     private Long publishedAt;
 
     public void setPublished(boolean published) {
@@ -30,5 +30,9 @@ public class Post {
 
     public void setCreatedAt(Long createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }
