@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class CommentService {
         return commentRepository.findById(id).orElse(null);
     }
 
+    @Transactional
     public Comment createComment (Comment comment) {
         Post post = postRepository.findBySlugAndIsDeleted(comment.getPost().getSlug(),false).orElse(null);
 
