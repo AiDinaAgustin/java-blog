@@ -3,6 +3,8 @@ package com.fastcampus.blog.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Entity
 public class Post {
@@ -19,6 +21,13 @@ public class Post {
     private Long createdAt;
     private Long updatedAt;
     private Long publishedAt;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post", orphanRemoval = true)
+    private List<Comment> comment;
+
+    public Integer getId() {
+        return id;
+    }
 
     public void setPublished(boolean published) {
         isPublished = published;

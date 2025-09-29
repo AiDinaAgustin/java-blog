@@ -10,12 +10,13 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/posts")
 public class PostController {
 
     @Autowired
     PostService postService;
 
-    @GetMapping("/")
+    @GetMapping
     public Iterable<Post> getPost() {
         return postService.getPosts();
     }
@@ -25,7 +26,7 @@ public class PostController {
         return postService.getPostBySlug(slug);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public Post createPost(@RequestBody Post post) {
         return postService.createPost(post);
     }
