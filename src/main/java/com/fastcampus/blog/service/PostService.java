@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -34,6 +35,9 @@ public class PostService {
     }
 
     public Post createPost(Post post) {
+        post.setPublished(true);
+        post.setPublishedAt(Instant.now().getEpochSecond());
+        post.setCreatedAt(Instant.now().getEpochSecond());
         return postRepository.save(post);
     }
 
