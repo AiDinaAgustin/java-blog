@@ -87,4 +87,24 @@ public class Post {
     public void setUpdatedAt(Long updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public boolean isPublished() {
+        return isPublished;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public Long getCreatedAt() {
+        return createdAt;
+    }
+
+    public Long getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public Long getPublishedAt() {
+        return publishedAt;
+    }
 }

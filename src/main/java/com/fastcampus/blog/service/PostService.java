@@ -3,6 +3,7 @@ package com.fastcampus.blog.service;
 import com.fastcampus.blog.entity.Post;
 import com.fastcampus.blog.repository.PostRepository;
 import com.fastcampus.blog.request.CreatePostRequest;
+import com.fastcampus.blog.response.PostCreateResponse;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class PostService {
         return postRepository.findBySlugAndIsDeleted(slug, false).orElse(null);
     }
 
-    public Post createPost(CreatePostRequest request) {
+    public PostCreateResponse createPost(CreatePostRequest request) {
         Post post = new Post();
         post.setBody(request.getBody());
         post.setTitle(request.getTitle());
@@ -44,7 +45,15 @@ public class PostService {
         post.setPublishedAt(Instant.now().getEpochSecond());
         post.setCreatedAt(Instant.now().getEpochSecond());
         post.setCommentCount(0L);
-        return postRepository.save(post);
+        post =  postRepository.save(post);
+
+        return PostCreateResponse.builder()
+                .title(post.getTitle())
+                .body(post.getBody())
+                .slug(post.getSlug())
+                .publishedAt(post.getPublishedAt())
+                .commentCount(post.getCommentCount())
+                .build();
     }
 
     public Post updatePostBySlug (String slug, Post sentPostByUser) {
