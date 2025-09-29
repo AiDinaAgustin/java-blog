@@ -29,4 +29,45 @@ public class PostController {
         posts.add(post);
         return post;
     }
+
+    @PutMapping("/{slug}")
+    public Post updatePostBySlug(@PathVariable String slug, @RequestBody Post sentPostByUser) {
+        Post savedPost = posts.stream().
+                filter(p -> p.getSlug().equals(slug)).findFirst().orElse(null);
+        if (savedPost == null ) {
+            return null;
+        }
+
+        savedPost.setTitle(sentPostByUser.getTitle());
+        savedPost.setSlug(sentPostByUser.getSlug());
+        savedPost.setBody(sentPostByUser.getBody());
+        return savedPost;
+    }
+
+    @DeleteMapping("/{id}")
+    public Boolean deletePostById(@PathVariable Integer id) {
+        Post savedPost = posts.stream().
+                filter(p -> p.getId().equals(id)).findFirst().orElse(null);
+
+        if (savedPost == null) {
+            return false;
+        }
+
+        posts.remove(savedPost);
+        return true;
+    }
+
+    @PostMapping("/{id}/publish")
+    public Post publishPostById(@PathVariable Integer id) {
+        Post savedPost = posts.stream().
+                filter(p -> p.getId().equals(id)).findFirst().orElse(null);
+
+        if (savedPost == null) {
+            return null;
+        }
+
+        savedPost.setPublished(true);
+
+        return savedPost;
+    }
 }

@@ -51,4 +51,12 @@ public class Post {
     public void setSlug(String slug) {
         this.slug = slug;
     }
+
+    public boolean isPublished() {
+        return isPublished;
+    }
+
+    public void setPublished(boolean published) {
+        isPublished = published;
+    }
 }
