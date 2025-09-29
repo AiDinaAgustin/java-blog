@@ -2,6 +2,7 @@ package com.fastcampus.blog.service;
 
 import com.fastcampus.blog.entity.Post;
 import com.fastcampus.blog.repository.PostRepository;
+import com.fastcampus.blog.request.CreatePostRequest;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,15 @@ public class PostService {
         return postRepository.findBySlugAndIsDeleted(slug, false).orElse(null);
     }
 
-    public Post createPost(Post post) {
+    public Post createPost(CreatePostRequest request) {
+        Post post = new Post();
+        post.setBody(request.getBody());
+        post.setTitle(request.getTitle());
+        post.setSlug(request.getSlug());
         post.setPublished(true);
         post.setPublishedAt(Instant.now().getEpochSecond());
         post.setCreatedAt(Instant.now().getEpochSecond());
+        post.setCommentCount(0L);
         return postRepository.save(post);
     }
 
@@ -46,7 +52,7 @@ public class PostService {
         if (savedPost == null ) {
             return null;
         }
-
+        savedPost.setUpdatedAt(Instant.now().getEpochSecond());
         return postRepository.save(sentPostByUser);
     }
 
