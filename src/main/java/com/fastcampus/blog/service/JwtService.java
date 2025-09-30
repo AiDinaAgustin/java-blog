@@ -1,6 +1,7 @@
 package com.fastcampus.blog.service;
 
 import com.fastcampus.blog.exception.ApiException;
+import com.fastcampus.blog.properties.SecretProperties;
 import com.fastcampus.blog.request.auth.LoginRequest;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -22,9 +23,12 @@ import java.util.Map;
 @Service
 public class JwtService {
 
+    @Autowired
+    SecretProperties secretProperties;
+
     public String generateToken(UserDetails userDetails) {
         Map<String, String> claims = new HashMap<>();
-        claims.put("iss", "https://fastcampus.com");
+        claims.put("iss", secretProperties.getJwtIss());
         Instant now = Instant.now();
         return Jwts.builder()
                 .claims(claims)
@@ -36,7 +40,7 @@ public class JwtService {
     }
 
     private SecretKey generateKey() {
-        byte[] decodedKey = Base64.getDecoder().decode("dQklKlg4Z2k2KXJPYWVQdGl0ZjJqR2NPTlF6ZjV5aTg=");
+        byte[] decodedKey = Base64.getDecoder().decode(secretProperties.getJwtSecretKey());
         return Keys.hmacShaKeyFor(decodedKey);
     }
 
