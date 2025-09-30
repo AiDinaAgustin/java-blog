@@ -16,8 +16,10 @@ public class PostAdminController {
     PostService postService;
 
     @GetMapping
-    public Iterable<Post> getPost() {
-        return postService.getPosts();
+    public Iterable<Post> getPost(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String body){
+        return postService.getPosts(title, body);
     }
 
     @GetMapping("/{slug}")
