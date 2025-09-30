@@ -8,13 +8,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/posts")
-public class PostController {
+@RequestMapping("/api/admin/posts")
+public class PostAdminController {
 
     @Autowired
     PostService postService;
