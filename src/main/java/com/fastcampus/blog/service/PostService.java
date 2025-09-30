@@ -30,15 +30,29 @@ public class PostService {
 
     List<Post> posts = new ArrayList<Post>(Arrays.asList(post1, post2));
 
-    public Iterable<Post> getPosts(String title, String body) {
-        if (title != null && body != null) {
-            return postRepository.findByTitleContainingAndBodyContainingAndIsDeletedFalse(title, body);
-        } else if (title != null) {
-            return postRepository.findByTitleContainingAndIsDeletedFalse(title);
-        } else if (body != null) {
-            return postRepository.findByBodyContainingAndIsDeletedFalse(body);
+    public Iterable<Post> getPosts(String title, String body, Boolean published) {
+        if (published != null) {
+            // Filter by publication status
+            if (title != null && body != null) {
+                return postRepository.findByTitleContainingAndBodyContainingAndIsPublishedAndIsDeletedFalse(title, body, published);
+            } else if (title != null) {
+                return postRepository.findByTitleContainingAndIsPublishedAndIsDeletedFalse(title, published);
+            } else if (body != null) {
+                return postRepository.findByBodyContainingAndIsPublishedAndIsDeletedFalse(body, published);
+            } else {
+                return postRepository.findByIsPublishedAndIsDeletedFalse(published);
+            }
         } else {
-            return postRepository.findAll();
+            // Existing logic when published filter is not provided
+            if (title != null && body != null) {
+                return postRepository.findByTitleContainingAndBodyContainingAndIsDeletedFalse(title, body);
+            } else if (title != null) {
+                return postRepository.findByTitleContainingAndIsDeletedFalse(title);
+            } else if (body != null) {
+                return postRepository.findByBodyContainingAndIsDeletedFalse(body);
+            } else {
+                return postRepository.findAll();
+            }
         }
     }
 

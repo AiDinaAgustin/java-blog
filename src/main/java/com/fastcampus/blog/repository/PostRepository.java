@@ -22,4 +22,10 @@ public interface PostRepository extends CrudRepository<Post, Integer> {
     List<Post> findByTitleContainingAndIsPublishedTrueAndIsDeletedFalse(String title);
     List<Post> findByBodyContainingAndIsPublishedTrueAndIsDeletedFalse(String body);
     List<Post> findByTitleContainingAndBodyContainingAndIsPublishedTrueAndIsDeletedFalse(String title, String body);
+
+    // Add these methods to PostRepository
+    List<Post> findByIsPublishedAndIsDeletedFalse(boolean isPublished);
+    List<Post> findByTitleContainingAndIsPublishedAndIsDeletedFalse(String title, boolean isPublished);
+    List<Post> findByBodyContainingAndIsPublishedAndIsDeletedFalse(String body, boolean isPublished);
+    List<Post> findByTitleContainingAndBodyContainingAndIsPublishedAndIsDeletedFalse(String title, String body, boolean isPublished);
 }
