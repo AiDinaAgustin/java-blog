@@ -19,8 +19,10 @@ public class PostPublicController {
     public Iterable<Post> getPost(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String body,
-            @RequestParam(required = false) Boolean published) {
-        return postService.getPosts(title, body, published);
+            @RequestParam(required = false) Boolean published,
+            @RequestParam Integer pageNo,
+            @RequestParam Integer limit) {
+        return postService.getPosts(title, body, published, pageNo, limit);
     }
 
     @GetMapping("/{slug}")

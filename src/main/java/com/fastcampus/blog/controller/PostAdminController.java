@@ -19,8 +19,10 @@ public class PostAdminController {
     public Iterable<Post> getPost(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String body,
-            @RequestParam(required = false) Boolean published) {
-        return postService.getPosts(title, body, published);
+            @RequestParam(required = false) Boolean published,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer limit) {
+        return postService.getPosts(title, body, published, pageNo, limit);
     }
 
     @GetMapping("/{slug}")
