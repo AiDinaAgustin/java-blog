@@ -2,6 +2,7 @@ package com.fastcampus.blog.service;
 
 import com.fastcampus.blog.entity.Comment;
 import com.fastcampus.blog.entity.Post;
+import com.fastcampus.blog.exception.ApiException;
 import com.fastcampus.blog.repository.CommentRepository;
 import com.fastcampus.blog.repository.PostRepository;
 import com.fastcampus.blog.request.CreateCommentRequest;
@@ -10,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +47,7 @@ public class CommentService {
     public CreateCommentResponse createComment(CreateCommentRequest request) {
         Post post = postRepository.findBySlugAndIsDeleted(request.getPost().getSlug(), false).orElse(null);
         if (post == null) {
-            return null;
+            throw new ApiException("Post not found", HttpStatus.NOT_FOUND);
         }
 
         // Create Comment entity from request

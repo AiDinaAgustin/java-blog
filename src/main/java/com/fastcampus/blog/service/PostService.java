@@ -1,12 +1,14 @@
 package com.fastcampus.blog.service;
 
 import com.fastcampus.blog.entity.Post;
+import com.fastcampus.blog.exception.ApiException;
 import com.fastcampus.blog.repository.PostRepository;
 import com.fastcampus.blog.request.CreatePostRequest;
 import com.fastcampus.blog.response.PostCreateResponse;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -33,7 +35,11 @@ public class PostService {
     }
 
     public Post getPostBySlug(String slug) {
-        return postRepository.findBySlugAndIsDeleted(slug, false).orElse(null);
+        Post post = postRepository.findBySlugAndIsDeleted(slug, false).orElse(null);
+        if (post == null) {
+            throw new ApiException("Post not found", HttpStatus.NOT_FOUND);
+        }
+        return post;
     }
 
     public PostCreateResponse createPost(CreatePostRequest request) {
