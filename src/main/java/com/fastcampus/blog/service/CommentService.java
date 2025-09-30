@@ -4,6 +4,8 @@ import com.fastcampus.blog.entity.Comment;
 import com.fastcampus.blog.entity.Post;
 import com.fastcampus.blog.repository.CommentRepository;
 import com.fastcampus.blog.repository.PostRepository;
+import com.fastcampus.blog.request.CreateCommentRequest;
+import com.fastcampus.blog.response.CreateCommentResponse;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,18 +42,33 @@ public class CommentService {
     }
 
     @Transactional
-    public Comment createComment (Comment comment) {
-        Post post = postRepository.findBySlugAndIsDeleted(comment.getPost().getSlug(),false).orElse(null);
-
-        if(post == null) {
+    public CreateCommentResponse createComment(CreateCommentRequest request) {
+        Post post = postRepository.findBySlugAndIsDeleted(request.getPost().getSlug(), false).orElse(null);
+        if (post == null) {
             return null;
         }
-        comment.getPost().setId(post.getId());
-        comment.setCreatedAt(Instant.now().getEpochSecond());
-        comment = commentRepository.save(comment);
 
-        post.setCommentCount(post.getCommentCount()+1);
+        // Create Comment entity from request
+        Comment comment = new Comment();
+        comment.setName(request.getName());
+        comment.setEmail(request.getEmail());
+        comment.setBody(request.getBody());
+        comment.setPost(post);
+        comment.setCreatedAt(Instant.now().getEpochSecond());
+
+        // Save comment
+        Comment savedComment = commentRepository.save(comment);
+
+        // Update post comment count
+        post.setCommentCount(post.getCommentCount() + 1);
         postRepository.save(post);
-        return comment;
+
+        // Map to response
+        return CreateCommentResponse.builder()
+                .name(savedComment.getName())
+                .email(savedComment.getEmail())
+                .body(savedComment.getBody())
+                .post(savedComment.getPost())
+                .build();
     }
 }
