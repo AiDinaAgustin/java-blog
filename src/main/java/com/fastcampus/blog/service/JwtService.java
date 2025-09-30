@@ -58,8 +58,8 @@ public class JwtService {
     }
 
     public boolean isExpired(String jwt) {
-        getClaims(jwt);
-        return false;
+        Claims claims = getClaims(jwt);
+        return claims.getExpiration().before(Date.from(Instant.now()));
     }
 
 }
